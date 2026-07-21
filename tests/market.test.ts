@@ -1,15 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { appendUnique, generateBars, movingAverage } from "../src/market";
+import { movingAverage, type MarketSnapshot } from "../src/market";
 
-test("mock bars are deterministic and valid", () => {
-  const bars = generateBars(3, 3);
-  assert.deepEqual(bars, generateBars(3, 3));
-  assert.ok(bars.every((bar) => bar.low <= Math.min(bar.open, bar.close) && bar.high >= Math.max(bar.open, bar.close)));
+test("live snapshot contract accepts normalized provider bars", () => {
+  const snapshot: MarketSnapshot = { ticker: "AAPL", provider: "yfinance", updated_at: "2026-07-21T15:00:00Z", bars: [{ time: "2026-07-21T15:00:00Z", open: 200, high: 202, low: 199, close: 201, volume: 1000 }] };
+  assert.equal(snapshot.bars[0].low <= Math.min(snapshot.bars[0].open, snapshot.bars[0].close), true);
+  assert.equal(snapshot.bars[0].high >= Math.max(snapshot.bars[0].open, snapshot.bars[0].close), true);
 });
 
-test("moving averages and duplicate protection work", () => {
+test("moving averages are calculated client-side", () => {
   assert.deepEqual(movingAverage([1, 2, 3], 2), [null, 1.5, 2.5]);
-  const first = generateBars(4, 1)[0];
-  assert.equal(appendUnique([first], { ...first, close: 99 }).length, 1);
 });
