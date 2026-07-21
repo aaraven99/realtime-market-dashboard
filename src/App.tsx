@@ -17,6 +17,30 @@ export default function App() {
   const [updatedAt, setUpdatedAt] = useState("");
   useEffect(() => {
     if (!ticker) return;
+    if (window.location.hostname !== "localhost") {
+      let cancelled = false;
+      const poll = async () => {
+        try {
+          const response = await fetch(`/api/market?ticker=${encodeURIComponent(ticker)}`);
+          const snapshot = await response.json() as MarketSnapshot & { error?: string };
+          if (!response.ok) throw new Error(snapshot.error || "Market API unavailable");
+          if (!cancelled) {
+            setBars(snapshot.bars);
+            setUpdatedAt(snapshot.updated_at);
+            setConnected(true);
+            setStatus("Live yfinance data - hosted polling every 15 seconds");
+          }
+        } catch (error) {
+          if (!cancelled) {
+            setConnected(false);
+            setStatus(error instanceof Error ? error.message : "Market API unavailable");
+          }
+        }
+      };
+      void poll();
+      const id = window.setInterval(() => void poll(), 15000);
+      return () => { cancelled = true; window.clearInterval(id); };
+    }
     const source = new EventSource(`http://localhost:8000/api/stream/${ticker}`);
     source.onopen = () => { setConnected(true); setStatus("Live yfinance data · updates every 15 seconds"); };
     source.onmessage = (event) => { const snapshot = JSON.parse(event.data) as MarketSnapshot; setBars(snapshot.bars); setUpdatedAt(snapshot.updated_at); };
