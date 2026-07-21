@@ -1,0 +1,9 @@
+{
+  "name": "realtime-market-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {"dev":"vite","build":"tsc -b && vite build","lint":"eslint .","test":"tsx --test tests/*.test.ts"},
+  "dependencies": {"@vitejs/plugin-react":"latest","vite":"latest","typescript":"latest","react":"latest","react-dom":"latest","recharts":"latest"},
+  "devDependencies": {"@types/node":"latest","@types/react":"latest","@types/react-dom":"latest","eslint":"latest","tsx":"latest","typescript-eslint":"latest"}
+}
