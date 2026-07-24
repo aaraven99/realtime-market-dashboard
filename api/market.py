@@ -34,7 +34,7 @@ def market_snapshot(ticker: str) -> dict[str, object]:
 
 
 class handler(BaseHTTPRequestHandler):
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         ticker = parse_qs(urlparse(self.path).query).get("ticker", ["NVDA"])[0]
         try:
             body, status = json.dumps(market_snapshot(ticker)).encode(), 200

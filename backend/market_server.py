@@ -1,4 +1,5 @@
 """Local-only market-data relay. Provider credentials never reach the browser."""
+
 from __future__ import annotations
 
 import json
@@ -26,8 +27,23 @@ def market_snapshot(ticker: str) -> dict[str, object]:
     bars = yf.Ticker(ticker.upper()).history(period="1d", interval="1m", prepost=True)
     if bars.empty:
         raise RuntimeError(f"No current yfinance bars returned for {ticker.upper()}")
-    records = [{"time": index.isoformat(), "open": float(row.Open), "high": float(row.High), "low": float(row.Low), "close": float(row.Close), "volume": int(row.Volume)} for index, row in bars.tail(200).iterrows()]
-    return {"ticker": ticker.upper(), "provider": "yfinance", "updated_at": records[-1]["time"], "bars": records}
+    records = [
+        {
+            "time": index.isoformat(),
+            "open": float(row.Open),
+            "high": float(row.High),
+            "low": float(row.Low),
+            "close": float(row.Close),
+            "volume": int(row.Volume),
+        }
+        for index, row in bars.tail(200).iterrows()
+    ]
+    return {
+        "ticker": ticker.upper(),
+        "provider": "yfinance",
+        "updated_at": records[-1]["time"],
+        "bars": records,
+    }
 
 
 @app.get("/api/market/<ticker>")
@@ -47,7 +63,10 @@ def stream(ticker: str):
             except RuntimeError as error:
                 yield f"event: error\ndata: {json.dumps({'error': str(error)})}\n\n"
             time.sleep(15)
-    return Response(events(), mimetype="text/event-stream", headers={"Cache-Control": "no-cache"})
+
+    return Response(
+        events(), mimetype="text/event-stream", headers={"Cache-Control": "no-cache"}
+    )
 
 
 if __name__ == "__main__":

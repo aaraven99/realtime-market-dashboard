@@ -1,5 +1,7 @@
 # Real-Time Market Dashboard
 
+[Live dashboard](https://realtime-market-dashboard-kappa.vercel.app)
+
 ![Generated market-dashboard demonstration](assets/portfolio-preview.png)
 
 A React + TypeScript dashboard served by a local yfinance relay. The browser never receives provider credentials.
