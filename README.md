@@ -2,6 +2,8 @@
 
 [Live dashboard](https://realtime-market-dashboard-kappa.vercel.app)
 
+The hosted terminal has one data mode: real provider-reported intraday bars. The previous generated stream is no longer mounted. If yfinance is unavailable or returns invalid bars, the page displays a provider error and leaves the chart empty.
+
 ![Generated market-dashboard demonstration](assets/portfolio-preview.png)
 
 A React + TypeScript dashboard served by a local yfinance relay. The browser never receives provider credentials.
@@ -40,6 +42,6 @@ If the page shows “Relay unavailable,” ensure the backend is running on port
 
 Run `npm run lint`, `npm test`, and `npm run build`. The test suite checks the normalized live snapshot contract; it intentionally does not call a market-data provider.
 
-This project is intended for educational and research purposes only. It does not provide investment advice, and its outputs should not be used as the sole basis for financial decisions. Historical performance and simulated results do not guarantee future performance.
+This project is intended for educational and research purposes only. It does not provide investment advice, and its outputs should not be used as the sole basis for financial decisions. yfinance data may be delayed, corrected, or unavailable and is not an exchange-grade feed.
 
 MIT License. Author: Aarav Shah.

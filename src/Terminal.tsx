@@ -1,3 +1,4 @@
+/*
 import {useEffect,useState} from "react";
 import {Bar,BarChart,CartesianGrid,ResponsiveContainer,Tooltip,XAxis,YAxis} from "recharts";
 import {bollingerBands,exponentialMovingAverage,generateBars,movingAverage,nextSimulatedBar,normalizeBars,type Bar as MarketBar,type MarketSnapshot,type SimulationConfig} from "./market";
@@ -27,6 +28,9 @@ function CandleChart({bars,showSma,showEma,showBands}:{bars:MarketBar[];showSma:
     {selected&&<g><rect x={Math.min(x(hover as number)+12,width-190)} y={32} width="172" height="78" rx="7" fill="#0b1320" stroke="#334155"/><text x={Math.min(x(hover as number)+24,width-178)} y={53} fill="#cbd5e1" fontSize="12">{new Date(selected.time).toLocaleTimeString()}</text><text x={Math.min(x(hover as number)+24,width-178)} y={73} fill="#94a3b8" fontSize="11">O {selected.open.toFixed(2)} H {selected.high.toFixed(2)}</text><text x={Math.min(x(hover as number)+24,width-178)} y={92} fill="#94a3b8" fontSize="11">L {selected.low.toFixed(2)} C {selected.close.toFixed(2)}</text></g>}
   </svg></div>
 }
+*/
+export { default } from "./App";
+/*
 export default function Terminal(){
   const [ticker,setTicker]=useState("NVDA");
   const [mode,setMode]=useState<Mode>("simulated");
@@ -92,3 +96,4 @@ export default function Terminal(){
     <footer><strong>SIMULATION & DATA NOTICE</strong> Simulated mode uses deterministic geometric returns and valid OHLCV construction. Delayed mode polls yfinance through a server-only function; provider secrets never reach the browser. Neither mode is an exchange-grade feed or investment advice.</footer>
   </main>
 }
+*/
